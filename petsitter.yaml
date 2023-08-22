@@ -117,6 +117,7 @@ paths:
                         breed: Rottweiler
                         size: large
                       activity: walk
+  
   /jobs/{id}:
     parameters:
       - schema:
@@ -435,6 +436,56 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/JobApplication'
+  /cars:
+    post:
+      summary: Register Car
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Car'
+  /cars/{id}:
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+    get:
+      summary: View Car
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+    put:
+      summary: Modify Car
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Car'
+    delete:
+      summary: Delete Car
+      responses:
+        '204':
+          description: No Content    
 components:
   schemas:
     User:
@@ -489,3 +540,18 @@ components:
           type: integer
         job_id:
           type: integer
+    Car:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        password:
+          type: string
+        full_name:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string          

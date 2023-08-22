@@ -2,33 +2,39 @@ openapi: 3.0.3
 info:
   title: PetSitter API
   version: "0.1"
+servers:
+- url: /
 paths:
   /users:
     post:
       summary: Register User
-      responses:
-        '201':
-          description: Created
-          headers:
-            Location:
-              schema:
-                type: string
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/User'
+      responses:
+        "201":
+          description: Created
+          headers:
+            Location:
+              style: simple
+              explode: false
+              schema:
+                type: string
   /users/{id}:
-    parameters:
-      - schema:
-          type: integer
-        name: id
-        in: path
-        required: true
     get:
       summary: View User
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -36,52 +42,49 @@ paths:
                 $ref: '#/components/schemas/User'
     put:
       summary: Modify User
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/User'
-    delete:
-      summary: Delete User
       responses:
-        '204':
-          description: No Content
-  /jobs:
-    post:
-      summary: Create Job
-      responses:
-        '201':
-          description: Created
-          headers:
-            Location:
-              schema:
-                type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Job'
-    get:
-      summary: List All Jobs
-      responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Job'
+                $ref: '#/components/schemas/User'
+    delete:
+      summary: Delete User
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: No Content
+  /jobs:
+    get:
+      summary: List All Jobs
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
               examples:
                 with-some-data:
                   summary: With some data
@@ -117,17 +120,35 @@ paths:
                         breed: Rottweiler
                         size: large
                       activity: walk
+    post:
+      summary: Create Job
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Job'
+      responses:
+        "201":
+          description: Created
+          headers:
+            Location:
+              style: simple
+              explode: false
+              schema:
+                type: string
   /jobs/{id}:
-    parameters:
-      - schema:
-          type: integer
-        name: id
-        in: path
-        required: true
     get:
       summary: View Job
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -135,93 +156,117 @@ paths:
                 $ref: '#/components/schemas/Job'
     put:
       summary: Modify Job
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Job'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Job'
-    delete:
-      summary: Delete Job
       responses:
-        '204':
-          description: No Content
-  /jobs/{id}/job-applications:
-    parameters:
-      - schema:
-          type: integer
-        name: id
-        in: path
-        required: true
-    get:
-      summary: List Applications For Job
-      responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/JobApplication'
+                $ref: '#/components/schemas/Job'
+    delete:
+      summary: Delete Job
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: No Content
+  /jobs/{id}/job-applications:
+    get:
+      summary: List Applications For Job
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
     post:
       summary: Create Job Application
-      responses:
-        '201':
-          description: Created
-          headers:
-            Location:
-              schema:
-                type: string
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/JobApplication'
+      responses:
+        "201":
+          description: Created
+          headers:
+            Location:
+              style: simple
+              explode: false
+              schema:
+                type: string
   /users/{id}/jobs:
-    parameters:
-      - schema:
-          type: integer
-        name: id
-        in: path
-        required: true
     get:
       summary: List Jobs For User
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Job'
+                $ref: '#/components/schemas/inline_response_200'
   /users/{id}/job-applications:
-    parameters:
-    - name: id
-      in: path
-      required: true
-      schema:
-        type: integer
     get:
       summary: List Applications For User
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
               examples:
                 empty:
                   summary: Zero Job Applications
@@ -403,31 +448,25 @@ paths:
                       user_id: 6109
                       job_id: 4060
                       status: CANCELLED
-              schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/JobApplication'
   /job-applications/{id}:
-    parameters:
-      - schema:
-          type: integer
-        name: id
-        in: path
-        required: true
     put:
       summary: Modify Job Application
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
       requestBody:
         description: Update the application details
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/JobApplication'
-
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -435,6 +474,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/JobApplication'
+                x-content-type: application/json
 components:
   schemas:
     User:
@@ -452,6 +492,14 @@ components:
           type: array
           items:
             type: string
+      example:
+        password: password
+        full_name: full_name
+        roles:
+        - roles
+        - roles
+        id: 0
+        email: email
     Job:
       type: object
       properties:
@@ -467,6 +515,17 @@ components:
           type: string
         dog:
           $ref: '#/components/schemas/Dog'
+      example:
+        creator_user_id: 6
+        start_time: start_time
+        activity: activity
+        end_time: end_time
+        id: 0
+        dog:
+          size: size
+          name: name
+          age: 1
+          breed: breed
     Dog:
       type: object
       properties:
@@ -478,6 +537,11 @@ components:
           type: string
         size:
           type: string
+      example:
+        size: size
+        name: name
+        age: 1
+        breed: breed
     JobApplication:
       type: object
       properties:
@@ -489,3 +553,54 @@ components:
           type: integer
         job_id:
           type: integer
+      example:
+        user_id: 6
+        job_id: 1
+        id: 0
+        status: status
+    inline_response_200:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Job'
+      example:
+        items:
+        - creator_user_id: 6
+          start_time: start_time
+          activity: activity
+          end_time: end_time
+          id: 0
+          dog:
+            size: size
+            name: name
+            age: 1
+            breed: breed
+        - creator_user_id: 6
+          start_time: start_time
+          activity: activity
+          end_time: end_time
+          id: 0
+          dog:
+            size: size
+            name: name
+            age: 1
+            breed: breed
+    inline_response_200_1:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/JobApplication'
+      example:
+        items:
+        - user_id: 6
+          job_id: 1
+          id: 0
+          status: status
+        - user_id: 6
+          job_id: 1
+          id: 0
+          status: status
